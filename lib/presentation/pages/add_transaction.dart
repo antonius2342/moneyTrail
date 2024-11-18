@@ -13,8 +13,9 @@ class _AddTransactionState extends State<AddTransaction> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Transaction'),
-        
+
       ),
+      endDrawer: Drawer(child: Icon(Icons.menu),),
     );
   }
 }
