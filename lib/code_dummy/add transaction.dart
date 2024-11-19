@@ -6,14 +6,14 @@ import 'package:money_trail_proj/data/models/transaction/transaction_model.dart'
 import 'package:money_trail_proj/presentation/pages/analytics_page.dart';
 import 'package:money_trail_proj/presentation/pages/add_categories.dart';
 
-class AddTransactionPage extends StatefulWidget {
-  const AddTransactionPage({super.key});
+class Addtransactionpage extends StatefulWidget {
+  const Addtransactionpage({super.key});
 
   @override
-  _AddTransactionPageState createState() => _AddTransactionPageState();
+  _AddtransactionpageState createState() => _AddtransactionpageState();
 }
 
-class _AddTransactionPageState extends State<AddTransactionPage> {
+class _AddtransactionpageState extends State<Addtransactionpage> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
@@ -36,7 +36,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
   @override
   void dispose() {
-    Hive.box<Transaction>('transaction').close();
+    Hive.box<TransactionModel>('transaction').close();
     super.dispose();
   }
 
@@ -161,14 +161,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               ),
 
               //category widget
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap: _showCategoryBottomSheet,
-                child: InputDecorator(
-                  decoration: const InputDecoration(labelText: 'Category'),
-                  child: Text(_category),
-                ),
-              ),
+             
               const SizedBox(height: 16),
               TextField(
                 controller: _noteController,

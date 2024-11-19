@@ -5,8 +5,9 @@ import 'package:money_trail_proj/presentation/pages/home_screen.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(TransactionAdapter());
-  await Hive.openBox<Transaction>('transactions');
+  Hive.registerAdapter(TransactionModelAdapter());
+ await Hive.openBox<TransactionModel>('transactions');
+
   runApp(const MyApp());
 }
 

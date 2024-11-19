@@ -1,45 +1,102 @@
+import 'dart:io';
 import 'package:hive/hive.dart';
 
 part 'transaction_model.g.dart';
 
 @HiveType(typeId: 0)
-class Transaction extends HiveObject {
+class TransactionModel extends HiveObject {
+  // Unique ID
   @HiveField(0)
+  String id;
+
+  // Amount
+  @HiveField(1)
   double amount;
 
-  @HiveField(1)
-  String note;
-
+  // Currency (based on user's location)
   @HiveField(2)
-  DateTime date;
+  String currency;
 
+  // Transaction Type: income, expense, liability, asset, account receivable, equity
   @HiveField(3)
-  String menu;
+  TransactionType type;
 
+  // Category
   @HiveField(4)
   String category;
 
+  // Account Direction: e.g., Cash, Debit
   @HiveField(5)
-  bool annualOption;
+  String accountDirection;
 
+  // Date
   @HiveField(6)
-  bool pushNotification;
+  DateTime date;
 
+  // Is Annual (specific for income/expense)
   @HiveField(7)
-  bool appreciation;
+  bool? isAnnual;
 
+  // Reminder Date (optional for annual income/expense)
   @HiveField(8)
-  double percentage;
+  DateTime? reminderDate;
 
-  Transaction({
+  // Due Date (required for liability/account receivable)
+  @HiveField(9)
+  DateTime? dueDate;
+
+  // Appreciation/Depreciation (specific for assets)
+  @HiveField(10)
+  bool? isDepreciation;
+
+  // Depreciation/Appreciation Percentage
+  @HiveField(11)
+  double? percentage;
+
+  // Notes
+  @HiveField(12)
+  String? notes;
+
+  // Attachments (e.g., receipts, documents)
+  @HiveField(13)
+  List<File>? attachments;
+
+  TransactionModel({
+    required this.id,
     required this.amount,
-    required this.note,
-    required this.date,
-    required this.menu,
+    required this.currency,
+    required this.type,
     required this.category,
-    this.annualOption = false,
-    this.pushNotification = false,
-    this.appreciation = false,
-    this.percentage = 10.0,
+    required this.accountDirection,
+    required this.date,
+    this.isAnnual,
+    this.reminderDate,
+    this.dueDate,
+    this.isDepreciation,
+    this.percentage,
+    this.notes,
+    this.attachments,
   });
+}
+
+// Enum for Transaction Type
+@HiveType(typeId: 1)
+enum TransactionType {
+  @HiveField(0)
+  income,
+  
+  @HiveField(1)
+  expense,
+  
+  @HiveField(2)
+  liability,
+  
+  @HiveField(3)
+  asset,
+  
+  @HiveField(4)
+  accountReceivable,
+  
+  @HiveField(5)
+  equity,
 }
