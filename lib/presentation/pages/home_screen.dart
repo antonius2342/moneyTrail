@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_trail_proj/presentation/component/carousel_component/carousel_component.dart';
+import 'package:money_trail_proj/presentation/pages/activity_transaction.dart';
 import 'package:money_trail_proj/presentation/pages/add_transaction.dart';
 import 'package:money_trail_proj/presentation/pages/notification_screen.dart';
 
@@ -34,31 +35,21 @@ class Home extends StatelessWidget {
       ),
       endDrawer: Drawer(
         child: ListView(
-          children: const <Widget>[
-            DrawerHeader(
+          children: <Widget>[
+            const DrawerHeader(
               child: Text('Menu Drawer'),
             ),
             // Tambahkan item drawer di sini
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
+      body: Padding(
             padding: const EdgeInsets.all(30.0),
-            child: const SizedBox(
+            child: SizedBox(
+              height: double.infinity,
               child: Center(child: CarouselComponent()),
             ),
           ),
-          Container(
-            height: 40,
-            
-          )
-        ],
-      ),
-      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -66,14 +57,15 @@ class Home extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  AddTransaction(), // Navigate to AddTransaction page
+                  Addtransactionpage(), // Navigate to AddTransaction page
             ),
           );
         },
         child: const Icon(Icons.add), // Floating Action Button icon
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        backgroundColor: Colors.blueGrey,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -84,11 +76,34 @@ class Home extends StatelessWidget {
             label: 'Analytics',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.note),
+            label: 'Activity',
+          ),
+        
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
         ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Home(),
+              ),
+            );
+          }
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>  ActivityPage(),
+              ),
+            );
+          }
+        },
       )
     );
-    }
+  } 
   }

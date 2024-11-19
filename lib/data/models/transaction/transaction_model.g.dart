@@ -6,51 +6,66 @@ part of 'transaction_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TransactionAdapter extends TypeAdapter<Transaction> {
+class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
   @override
   final int typeId = 0;
 
   @override
-  Transaction read(BinaryReader reader) {
+  TransactionModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Transaction(
-      amount: fields[0] as double,
-      note: fields[1] as String,
-      date: fields[2] as DateTime,
-      menu: fields[3] as String,
+    return TransactionModel(
+      id: fields[0] as String,
+      amount: fields[1] as double,
+      currency: fields[2] as String,
+      type: fields[3] as TransactionType,
       category: fields[4] as String,
-      annualOption: fields[5] as bool,
-      pushNotification: fields[6] as bool,
-      appreciation: fields[7] as bool,
-      percentage: fields[8] as double,
+      accountDirection: fields[5] as String,
+      date: fields[6] as DateTime,
+      isAnnual: fields[7] as bool?,
+      reminderDate: fields[8] as DateTime?,
+      dueDate: fields[9] as DateTime?,
+      isDepreciation: fields[10] as bool?,
+      percentage: fields[11] as double?,
+      notes: fields[12] as String?,
+      attachments: (fields[13] as List?)?.cast<File>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, Transaction obj) {
+  void write(BinaryWriter writer, TransactionModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(14)
       ..writeByte(0)
-      ..write(obj.amount)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.note)
+      ..write(obj.amount)
       ..writeByte(2)
-      ..write(obj.date)
+      ..write(obj.currency)
       ..writeByte(3)
-      ..write(obj.menu)
+      ..write(obj.type)
       ..writeByte(4)
       ..write(obj.category)
       ..writeByte(5)
-      ..write(obj.annualOption)
+      ..write(obj.accountDirection)
       ..writeByte(6)
-      ..write(obj.pushNotification)
+      ..write(obj.date)
       ..writeByte(7)
-      ..write(obj.appreciation)
+      ..write(obj.isAnnual)
       ..writeByte(8)
-      ..write(obj.percentage);
+      ..write(obj.reminderDate)
+      ..writeByte(9)
+      ..write(obj.dueDate)
+      ..writeByte(10)
+      ..write(obj.isDepreciation)
+      ..writeByte(11)
+      ..write(obj.percentage)
+      ..writeByte(12)
+      ..write(obj.notes)
+      ..writeByte(13)
+      ..write(obj.attachments);
   }
 
   @override
@@ -59,7 +74,66 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TransactionAdapter &&
+      other is TransactionModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class TransactionTypeAdapter extends TypeAdapter<TransactionType> {
+  @override
+  final int typeId = 1;
+
+  @override
+  TransactionType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return TransactionType.income;
+      case 1:
+        return TransactionType.expense;
+      case 2:
+        return TransactionType.liability;
+      case 3:
+        return TransactionType.asset;
+      case 4:
+        return TransactionType.accountReceivable;
+      case 5:
+        return TransactionType.equity;
+      default:
+        return TransactionType.income;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, TransactionType obj) {
+    switch (obj) {
+      case TransactionType.income:
+        writer.writeByte(0);
+        break;
+      case TransactionType.expense:
+        writer.writeByte(1);
+        break;
+      case TransactionType.liability:
+        writer.writeByte(2);
+        break;
+      case TransactionType.asset:
+        writer.writeByte(3);
+        break;
+      case TransactionType.accountReceivable:
+        writer.writeByte(4);
+        break;
+      case TransactionType.equity:
+        writer.writeByte(5);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TransactionTypeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
